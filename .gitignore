@@ -1,0 +1,46 @@
+########################################
+# Terraform
+########################################
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+*.tfplan
+*.tfplan.*
+crash.log
+crash.*.log
+
+# Terraform variable files (secrets)
+*.tfvars
+*.tfvars.json
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI local config
+.terraformrc
+terraform.rc
+
+# Local-only terraform directories / files
+.terraform.lock.hcl        # 팀에서 provider lock을 공유할거면 "지우지 말고" Git에 올리는게 일반적
+terraform.tfstate.d/
+.terraform.tfstate.lock.info
+
+########################################
+# Environment files
+########################################
+.env
+.env.*
+!.env.example
+
+########################################
+# OS / IDE
+########################################
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
