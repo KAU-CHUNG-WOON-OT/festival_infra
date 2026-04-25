@@ -1,6 +1,7 @@
 ########################################
 # Terraform
 ########################################
+.terraform/
 **/.terraform/*
 *.tfstate
 *.tfstate.*
@@ -25,7 +26,7 @@ override.tf.json
 terraform.rc
 
 # Local-only terraform directories / files
-.terraform.lock.hcl        # 팀에서 provider lock을 공유할거면 "지우지 말고" Git에 올리는게 일반적
+.terraform.lock.hcl
 terraform.tfstate.d/
 .terraform.tfstate.lock.info
 
