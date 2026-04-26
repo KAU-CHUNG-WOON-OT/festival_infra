@@ -55,7 +55,7 @@ resource "aws_db_instance" "this" {
   final_snapshot_identifier = "${var.name_prefix}-db-final-snapshot"
   deletion_protection       = false
 
-  backup_retention_period = 7
+  backup_retention_period = var.backup_retention_period
   backup_window           = "02:00-03:00"
   maintenance_window      = "Mon:03:00-Mon:04:00"
 

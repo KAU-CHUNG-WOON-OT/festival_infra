@@ -36,6 +36,8 @@ resource "aws_ecs_task_definition" "main" {
 
       environment = [
         { name = "SERVER_PORT", value = "8080" },
+        { name = "DB_URL", value = "jdbc:mysql://${split(":", var.db_endpoint)[0]}:3306/${var.db_name}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8" },
+        { name = "DB_USERNAME", value = "admin" },
         { name = "DB_HOST", value = split(":", var.db_endpoint)[0] },
         { name = "DB_PORT", value = "3306" },
         { name = "DB_NAME", value = var.db_name },
@@ -105,7 +107,7 @@ resource "aws_ecs_service" "main" {
   }
 
   lifecycle {
-    ignore_changes = [task_definition, desired_count]
+    ignore_changes = [desired_count]
   }
 }
 

@@ -18,3 +18,8 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "backup_retention_period" {
+  description = "RDS 자동 백업 보관 기간(일)"
+  type        = number
+}

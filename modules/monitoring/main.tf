@@ -1,3 +1,6 @@
+# ── Region ────────────────────────────────────────────────────
+data "aws_region" "current" {}
+
 # ── SNS ───────────────────────────────────────────────────────
 resource "aws_sns_topic" "alerts" {
   name = "${var.project_name}-alerts"
@@ -89,6 +92,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "ECS CPU Utilization (%)"
+          region = data.aws_region.current.name
           period = 60
           stat   = "Average"
           view   = "timeSeries"
@@ -106,6 +110,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "ECS Memory Utilization (%)"
+          region = data.aws_region.current.name
           period = 60
           stat   = "Average"
           view   = "timeSeries"
@@ -124,6 +129,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "ALB Request Count / 5xx"
+          region = data.aws_region.current.name
           period = 60
           view   = "timeSeries"
           metrics = [
@@ -140,6 +146,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "ALB Target Response Time (p99, sec)"
+          region = data.aws_region.current.name
           period = 60
           stat   = "p99"
           view   = "timeSeries"
@@ -157,6 +164,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "RDS Database Connections"
+          region = data.aws_region.current.name
           period = 60
           stat   = "Average"
           view   = "timeSeries"
@@ -173,6 +181,7 @@ resource "aws_cloudwatch_dashboard" "this" {
         height = 6
         properties = {
           title  = "Redis Cache Hit Rate"
+          region = data.aws_region.current.name
           period = 60
           view   = "timeSeries"
           metrics = [

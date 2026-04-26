@@ -40,10 +40,11 @@ module "ecs_cluster" {
 module "database" {
   source = "./modules/database"
 
-  name_prefix        = local.name_prefix
-  private_subnet_ids = module.networking.private_subnet_ids
-  sg_db_id           = module.networking.sg_db_id
-  db_password        = var.db_password
+  name_prefix             = local.name_prefix
+  private_subnet_ids      = module.networking.private_subnet_ids
+  sg_db_id                = module.networking.sg_db_id
+  db_password             = var.db_password
+  backup_retention_period = var.db_backup_retention_period
 }
 
 # ── Cache ─────────────────────────────────────────────────────

@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "main" {
   deregistration_delay = 30
 
   health_check {
-    path                = "/health"
+    path                = "/api/v1/health"
     protocol            = "HTTP"
     healthy_threshold   = 2
     unhealthy_threshold = 3
@@ -42,7 +42,7 @@ resource "aws_lb_target_group" "vote" {
   deregistration_delay = 10
 
   health_check {
-    path                = "/health"
+    path                = "/api/v1/health"
     protocol            = "HTTP"
     healthy_threshold   = 2
     unhealthy_threshold = 3
@@ -91,6 +91,29 @@ resource "aws_lb_listener" "https" {
 }
 
 # ── Listener Rules ────────────────────────────────────────────
+
+# priority 50: Springdoc Swagger UI / OpenAPI docs → main TG
+resource "aws_lb_listener_rule" "swagger" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 50
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main.arn
+  }
+
+  condition {
+    path_pattern {
+      values = [
+        "/swagger-ui",
+        "/swagger-ui/*",
+        "/swagger-ui.html",
+        "/v3/api-docs",
+        "/v3/api-docs/*"
+      ]
+    }
+  }
+}
 
 # priority 100: /api/vote* → vote TG
 resource "aws_lb_listener_rule" "vote" {

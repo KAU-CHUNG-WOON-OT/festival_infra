@@ -37,6 +37,17 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_backup_retention_period" {
+  description = "RDS 자동 백업 보관 기간(일). dev/free tier에서는 0으로 비활성화 가능"
+  type        = number
+  default     = 7
+
+  validation {
+    condition     = var.db_backup_retention_period >= 0 && var.db_backup_retention_period <= 35
+    error_message = "db_backup_retention_period 는 0 이상 35 이하이어야 합니다."
+  }
+}
+
 variable "alarm_email" {
   description = "CloudWatch 알람 수신 이메일 (빈 문자열이면 구독 생략)"
   type        = string
