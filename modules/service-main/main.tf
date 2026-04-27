@@ -61,13 +61,6 @@ resource "aws_ecs_task_definition" "main" {
         }
       }
 
-      healthCheck = {
-        command     = ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
-        interval    = 30
-        timeout     = 5
-        retries     = 3
-        startPeriod = 60
-      }
     }
   ])
 }
@@ -80,7 +73,7 @@ resource "aws_ecs_service" "main" {
   desired_count   = var.desired_count
   launch_type     = "FARGATE"
 
-  health_check_grace_period_seconds = 60
+  health_check_grace_period_seconds = 180
 
   network_configuration {
     subnets          = var.private_subnet_ids

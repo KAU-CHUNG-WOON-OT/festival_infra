@@ -7,7 +7,7 @@ variable "project_name" {
 variable "environment" {
   description = "배포 환경 (dev / prod)"
   type        = string
-  default     = "prod"
+  default     = "dev"
 
   validation {
     condition     = contains(["dev", "prod"], var.environment)

@@ -115,6 +115,27 @@ resource "aws_lb_listener_rule" "swagger" {
   }
 }
 
+# priority 60: OAuth2 로그인 흐름 → main TG
+resource "aws_lb_listener_rule" "oauth2" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 60
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.main.arn
+  }
+
+  condition {
+    path_pattern {
+      values = [
+        "/oauth2/*",
+        "/login/oauth2/*",
+        "/auth/*"
+      ]
+    }
+  }
+}
+
 # priority 100: /api/vote* → vote TG
 resource "aws_lb_listener_rule" "vote" {
   listener_arn = aws_lb_listener.https.arn
