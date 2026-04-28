@@ -53,3 +53,8 @@ variable "alarm_email" {
   type        = string
   default     = ""
 }
+
+variable "bastion_key_name" {
+  description = "yjm_rds_keypair"
+  type        = string
+}

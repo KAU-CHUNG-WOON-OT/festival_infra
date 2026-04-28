@@ -34,3 +34,9 @@ output "redis_endpoint" {
   value       = module.cache.redis_endpoint
   sensitive   = true
 }
+
+# ── Bastion ───────────────────────────────────────────────────
+output "bastion_public_ip" {
+  description = "Bastion EC2 퍼블릭 IP (IntelliJ SSH 터널 주소)"
+  value       = module.bastion.public_ip
+}

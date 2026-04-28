@@ -193,6 +193,30 @@ resource "aws_security_group" "vote" {
   tags = { Name = "${var.name_prefix}-sg-vote" }
 }
 
+# sg_bastion: SSH 접속 전용 (키페어 인증)
+resource "aws_security_group" "bastion" {
+  name        = "${var.name_prefix}-sg-bastion"
+  description = "Bastion: inbound SSH from anywhere (key-pair auth)"
+  vpc_id      = aws_vpc.this.id
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "${var.name_prefix}-sg-bastion" }
+}
+
 # sg_db: Main + Vote SG → 3306 (MySQL/Aurora)
 resource "aws_security_group" "db" {
   name        = "${var.name_prefix}-sg-db"
@@ -213,6 +237,14 @@ resource "aws_security_group" "db" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = [aws_security_group.vote.id]
+  }
+
+  ingress {
+    description     = "From Bastion"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion.id]
   }
 
   tags = { Name = "${var.name_prefix}-sg-db" }

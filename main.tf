@@ -100,6 +100,16 @@ module "service_vote" {
   redis_host         = module.cache.redis_endpoint
 }
 
+# ── Bastion ───────────────────────────────────────────────────
+module "bastion" {
+  source = "./modules/bastion"
+
+  name_prefix      = local.name_prefix
+  public_subnet_id = module.networking.public_subnet_ids[0]
+  sg_bastion_id    = module.networking.sg_bastion_id
+  key_name         = var.bastion_key_name
+}
+
 # ── Monitoring ────────────────────────────────────────────────
 module "monitoring" {
   source = "./modules/monitoring"
