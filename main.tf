@@ -90,7 +90,7 @@ module "service_vote" {
   tg_vote_arn        = module.alb.tg_vote_arn
   alb_arn_suffix     = module.alb.alb_arn_suffix
   tg_vote_arn_suffix = module.alb.tg_vote_arn_suffix
-  ecr_repository_url = module.ecr.vote_repo_url
+  ecr_repository_url = module.ecr.main_repo_url
   execution_role_arn = module.ecs_cluster.execution_role_arn
   task_role_arn      = module.ecs_cluster.task_role_arn
   log_group_name     = module.ecs_cluster.log_group_vote_name
