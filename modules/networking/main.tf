@@ -193,6 +193,29 @@ resource "aws_security_group" "vote" {
   tags = { Name = "${var.name_prefix}-sg-vote" }
 }
 
+resource "aws_security_group" "ticket" {
+  name        = "${var.name_prefix}-sg-ticket"
+  description = "Ticket query service: inbound 8000 from ALB"
+  vpc_id      = aws_vpc.this.id
+
+  ingress {
+    description     = "From ALB"
+    from_port       = 8000
+    to_port         = 8000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "${var.name_prefix}-sg-ticket" }
+}
+
 # sg_bastion: SSH 접속 전용 (키페어 인증)
 resource "aws_security_group" "bastion" {
   name        = "${var.name_prefix}-sg-bastion"
@@ -237,6 +260,14 @@ resource "aws_security_group" "db" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = [aws_security_group.vote.id]
+  }
+
+  ingress {
+    description     = "From Ticket query service"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ticket.id]
   }
 
   ingress {

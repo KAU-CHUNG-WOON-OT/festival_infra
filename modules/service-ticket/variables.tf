@@ -23,7 +23,7 @@ description = "프라이빗 서브넷 ID 목록"
 type        = list(string)
 }
 
-variable "sg_main_id" {
+variable "sg_ticket_id" {
 description = "보안 그룹 ID"
 type        = string
 }

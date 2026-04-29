@@ -168,7 +168,7 @@ resource "aws_lb_listener_rule" "vote" {
 
   condition {
     path_pattern {
-      values = ["/api/vote*"]
+      values = ["/api/votes*"]
     }
   }
 }

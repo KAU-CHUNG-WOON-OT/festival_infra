@@ -109,7 +109,7 @@ module "service_ticket" {
   cluster_id         = module.ecs_cluster.cluster_id
   cluster_name       = module.ecs_cluster.cluster_name
   private_subnet_ids = module.networking.private_subnet_ids
-  sg_main_id         = module.networking.sg_main_id
+  sg_ticket_id       = module.networking.sg_ticket_id
   tg_ticket_arn      = module.alb.tg_ticket_arn
   ecr_repository_url = module.ecr.ticket_query_repo_url
   execution_role_arn = module.ecs_cluster.execution_role_arn

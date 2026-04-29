@@ -87,7 +87,7 @@ resource "aws_ecs_service" "ticket_query" {
 
   network_configuration {
     subnets          = var.private_subnet_ids
-    security_groups  = [var.sg_main_id]
+    security_groups = [var.sg_ticket_id]
     assign_public_ip = false
   }
 

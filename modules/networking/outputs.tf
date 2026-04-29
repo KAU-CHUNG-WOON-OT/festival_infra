@@ -28,6 +28,11 @@ output "sg_vote_id" {
   value       = aws_security_group.vote.id
 }
 
+output "sg_ticket_id" {
+  description = "팔찌 서비스 보안 그룹 ID"
+  value = aws_security_group.ticket.id
+}
+
 output "sg_db_id" {
   description = "DB 보안 그룹 ID"
   value       = aws_security_group.db.id
