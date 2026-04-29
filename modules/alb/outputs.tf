@@ -37,3 +37,7 @@ output "tg_vote_arn_suffix" {
   description = "CloudWatch 지표용 투표 TG ARN 접미사"
   value       = aws_lb_target_group.vote.arn_suffix
 }
+
+output "tg_ticket_arn" {
+  value = aws_lb_target_group.ticket.arn
+}

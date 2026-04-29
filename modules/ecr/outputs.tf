@@ -17,3 +17,7 @@ output "vote_repo_arn" {
   description = "투표 서비스 ECR 레포지토리 ARN"
   value       = aws_ecr_repository.this["vote"].arn
 }
+
+output "ticket_query_repo_url" {
+  value = aws_ecr_repository.ticket_query.repository_url
+}

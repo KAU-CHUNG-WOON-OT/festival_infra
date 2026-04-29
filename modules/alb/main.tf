@@ -54,6 +54,26 @@ resource "aws_lb_target_group" "vote" {
   tags = { Name = "${var.name_prefix}-vote-tg" }
 }
 
+resource "aws_lb_target_group" "ticket" {
+  name        = "${var.name_prefix}-ticket-query-tg"
+  port        = 8000
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+
+  health_check {
+    path                = "/health"
+    port                = "8000"
+    protocol            = "HTTP"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    timeout             = 5
+    interval            = 30
+    matcher             = "200"
+  }
+}
+
+
 # ── Listener: HTTP → HTTPS 리다이렉트 ────────────────────────
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.this.arn
@@ -166,6 +186,22 @@ resource "aws_lb_listener_rule" "main" {
   condition {
     path_pattern {
       values = ["/api/*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "ticket" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 70
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ticket.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/ticket/*"]
     }
   }
 }

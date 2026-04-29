@@ -36,6 +36,13 @@ resource "aws_cloudwatch_log_group" "vote" {
   tags = { Name = "/ecs/${var.project_name}-vote" }
 }
 
+resource "aws_cloudwatch_log_group" "ticket_query" {
+  name              = "/ecs/${var.project_name}-ticket-query"
+  retention_in_days = 14
+  tags = { Name = "/ecs/${var.project_name}-ticket-query" }
+}
+
+
 # ── IAM: Execution Role ───────────────────────────────────────
 resource "aws_iam_role" "execution" {
   name = "${var.name_prefix}-ecs-execution-role"

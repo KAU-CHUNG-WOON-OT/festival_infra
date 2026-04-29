@@ -27,3 +27,7 @@ output "log_group_vote_name" {
   description = "투표 서비스 CloudWatch 로그 그룹 이름"
   value       = aws_cloudwatch_log_group.vote.name
 }
+
+output "log_group_ticket_query_name" {
+  value = aws_cloudwatch_log_group.ticket_query.name
+}

@@ -58,3 +58,9 @@ variable "bastion_key_name" {
   description = "yjm_rds_keypair"
   type        = string
 }
+
+variable "jwt_secret" {
+  description = "JWT secret key for ticket query service"
+  type        = string
+  sensitive   = true
+}

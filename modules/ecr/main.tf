@@ -19,6 +19,16 @@ resource "aws_ecr_repository" "this" {
   tags = { Name = "${var.project_name}-${each.key}" }
 }
 
+resource "aws_ecr_repository" "ticket_query" {
+  name                 = "${var.project_name}-ticket-query"
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
 resource "aws_ecr_lifecycle_policy" "this" {
   for_each   = aws_ecr_repository.this
   repository = each.value.name
@@ -50,3 +60,5 @@ resource "aws_ecr_lifecycle_policy" "this" {
     ]
   })
 }
+
+
