@@ -100,3 +100,16 @@ resource "aws_iam_role_policy" "task_cloudwatch" {
     }]
   })
 }
+
+resource "aws_iam_role_policy" "task_dynamodb" {
+  name = "${var.name_prefix}-ecs-task-dynamodb"
+  role = aws_iam_role.task.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["dynamodb:GetItem"]
+      Resource = "arn:aws:dynamodb:ap-northeast-2:236451048000:table/festival-ticketing-ticket"
+    }]
+  })
+}
