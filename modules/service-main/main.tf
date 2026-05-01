@@ -11,6 +11,16 @@ resource "aws_ssm_parameter" "db_password" {
   }
 }
 
+resource "aws_ssm_parameter" "swagger_password" {
+  name  = "/${var.project_name}/main/swagger-password"
+  type  = "SecureString"
+  value = var.swagger_password
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
 # ── ECS Task Definition ───────────────────────────────────────
 resource "aws_ecs_task_definition" "main" {
   family                   = "${var.name_prefix}-main"
@@ -42,13 +52,18 @@ resource "aws_ecs_task_definition" "main" {
         { name = "DB_PORT", value = "3306" },
         { name = "DB_NAME", value = var.db_name },
         { name = "REDIS_HOST", value = var.redis_host },
-        { name = "REDIS_PORT", value = "6379" }
+        { name = "REDIS_PORT", value = "6379" },
+        { name = "SWAGGER_USERNAME", value = var.swagger_username }
       ]
 
       secrets = [
         {
           name      = "DB_PASSWORD"
           valueFrom = aws_ssm_parameter.db_password.arn
+        },
+        {
+          name      = "SWAGGER_PASSWORD"
+          valueFrom = aws_ssm_parameter.swagger_password.arn
         }
       ]
 

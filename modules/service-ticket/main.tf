@@ -106,6 +106,6 @@ resource "aws_ecs_service" "ticket_query" {
   }
 
   lifecycle {
-    ignore_changes = [desired_count]
+    ignore_changes = [desired_count, task_definition]
   }
 }

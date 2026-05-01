@@ -84,6 +84,18 @@ variable "redis_host" {
   sensitive   = true
 }
 
+# ── Swagger ───────────────────────────────────────────────────
+variable "swagger_username" {
+  description = "스웨거 Basic Auth 아이디"
+  type        = string
+}
+
+variable "swagger_password" {
+  description = "스웨거 Basic Auth 비밀번호 (SSM SecureString)"
+  type        = string
+  sensitive   = true
+}
+
 # ── 스케일링 ──────────────────────────────────────────────────
 variable "desired_count" {
   description = "초기 ECS 태스크 수"

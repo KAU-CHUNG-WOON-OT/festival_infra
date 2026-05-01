@@ -75,6 +75,8 @@ module "service_main" {
   db_name            = module.database.db_name
   db_password        = var.db_password
   redis_host         = module.cache.redis_endpoint
+  swagger_username   = var.swagger_username
+  swagger_password   = var.swagger_password
 }
 
 # ── Vote Service ──────────────────────────────────────────────

@@ -64,3 +64,15 @@ variable "jwt_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "swagger_username" {
+  description = "스웨거 Basic Auth 아이디"
+  type        = string
+  default     = "admin"
+}
+
+variable "swagger_password" {
+  description = "스웨거 Basic Auth 비밀번호"
+  type        = string
+  sensitive   = true
+}
