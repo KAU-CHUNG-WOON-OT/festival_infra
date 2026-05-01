@@ -201,7 +201,12 @@ resource "aws_lb_listener_rule" "ticket" {
 
   condition {
     path_pattern {
-      values = ["/ticket/*"]
+      values = [
+        "/ticket/*",
+        "/docs",
+        "/openapi.json",
+        "/redoc",
+      ]
     }
   }
 }
