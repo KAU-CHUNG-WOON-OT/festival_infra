@@ -121,6 +121,8 @@ module "service_ticket" {
   db_name            = module.database.db_name
   db_password        = var.db_password
   jwt_secret         = var.jwt_secret
+  docs_username = var.swagger_username
+  docs_password = var.swagger_password
 }
 
 # ── Bastion ───────────────────────────────────────────────────

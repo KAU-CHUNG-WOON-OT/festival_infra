@@ -86,3 +86,14 @@ description = "태스크 실행 수"
 type        = number
 default     = 1
 }
+
+variable "docs_username" {
+  description = "API 문서 인증 사용자명"
+  type        = string
+}
+
+variable "docs_password" {
+  description = "API 문서 인증 비밀번호"
+  type        = string
+  sensitive   = true
+}

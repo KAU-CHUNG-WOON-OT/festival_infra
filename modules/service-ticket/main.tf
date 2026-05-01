@@ -20,6 +20,15 @@ resource "aws_ssm_parameter" "db_password" {
   }
 }
 
+resource "aws_ssm_parameter" "docs_password" {
+  name  = "/${var.project_name}/ticket-query/docs-password"
+  type  = "SecureString"
+  value = var.docs_password
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
 # ── ECS Task Definition ──────────────────────────────────────
 resource "aws_ecs_task_definition" "ticket_query" {
   family                   = "${var.name_prefix}-ticket-query"
@@ -49,7 +58,8 @@ resource "aws_ecs_task_definition" "ticket_query" {
         { name = "RDS_HOST",     value = split(":", var.db_endpoint)[0] },
         { name = "RDS_PORT",     value = "3306" },
         { name = "RDS_USER",     value = "admin" },
-        { name = "RDS_DATABASE", value = var.db_name }
+        { name = "RDS_DATABASE", value = var.db_name },
+        { name = "DOCS_USERNAME", value = var.docs_username },
       ]
 
       secrets = [
@@ -60,7 +70,12 @@ resource "aws_ecs_task_definition" "ticket_query" {
         {
           name      = "RDS_PASSWORD"
           valueFrom = aws_ssm_parameter.db_password.arn
+        },
+        {
+          name      = "DOCS_PASSWORD"
+          valueFrom = aws_ssm_parameter.docs_password.arn
         }
+
       ]
 
       logConfiguration = {
@@ -74,6 +89,9 @@ resource "aws_ecs_task_definition" "ticket_query" {
     }
   ])
 }
+
+
+
 
 # ── ECS Service ───────────────────────────────────────────────
 resource "aws_ecs_service" "ticket_query" {
