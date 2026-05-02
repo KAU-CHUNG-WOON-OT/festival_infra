@@ -65,6 +65,11 @@ variable "jwt_secret" {
   sensitive   = true
 }
 
+variable "app_base_url" {
+  description = "앱 베이스 URL (OAuth2 redirect URI에 사용)"
+  type        = string
+}
+
 variable "swagger_username" {
   description = "스웨거 Basic Auth 아이디"
   type        = string

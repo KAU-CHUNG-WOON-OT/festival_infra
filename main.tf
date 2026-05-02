@@ -77,6 +77,7 @@ module "service_main" {
   redis_host         = module.cache.redis_endpoint
   swagger_username   = var.swagger_username
   swagger_password   = var.swagger_password
+  app_base_url       = var.app_base_url
 }
 
 # ── Vote Service ──────────────────────────────────────────────

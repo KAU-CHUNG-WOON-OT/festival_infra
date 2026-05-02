@@ -53,7 +53,8 @@ resource "aws_ecs_task_definition" "main" {
         { name = "DB_NAME", value = var.db_name },
         { name = "REDIS_HOST", value = var.redis_host },
         { name = "REDIS_PORT", value = "6379" },
-        { name = "SWAGGER_USERNAME", value = var.swagger_username }
+        { name = "SWAGGER_USERNAME", value = var.swagger_username },
+        { name = "APP_BASE_URL", value = var.app_base_url }
       ]
 
       secrets = [
