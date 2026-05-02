@@ -61,13 +61,6 @@ resource "aws_ecs_task_definition" "vote" {
         }
       }
 
-      healthCheck = {
-        command     = ["CMD-SHELL", "curl -f http://localhost:8081/api/v1/health || exit 1"]
-        interval    = 30
-        timeout     = 5
-        retries     = 3
-        startPeriod = 60
-      }
     }
   ])
 }
@@ -80,7 +73,7 @@ resource "aws_ecs_service" "vote" {
   desired_count   = var.desired_count
   launch_type     = "FARGATE"
 
-  health_check_grace_period_seconds = 30
+  health_check_grace_period_seconds = 120
 
   network_configuration {
     subnets          = var.private_subnet_ids
@@ -100,8 +93,8 @@ resource "aws_ecs_service" "vote" {
   deployment_maximum_percent         = 200
 
   deployment_circuit_breaker {
-    enable   = true
-    rollback = true
+    enable   = false
+    rollback = false
   }
 
   deployment_controller {
@@ -116,7 +109,7 @@ resource "aws_ecs_service" "vote" {
 # ── Auto Scaling Target ───────────────────────────────────────
 resource "aws_appautoscaling_target" "vote" {
   min_capacity       = 1
-  max_capacity       = 20
+  max_capacity       = 1
   resource_id        = "service/${var.cluster_name}/${aws_ecs_service.vote.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
@@ -127,7 +120,7 @@ resource "aws_appautoscaling_target" "vote" {
 # KST → UTC 변환 필요 (KST = UTC+9, 예: KST 18:00 → UTC 09:00)
 # 아래 cron 표현식은 예시이며, 실제 투표 시간표에 맞춰 반드시 수정하세요.
 
-# scale-out: 투표 시작 2분 전 → min=10, max=20 으로 사전 워밍업
+# scale-out: 운영 시 활성화 (현재 개발 단계 - 1개 고정)
 resource "aws_appautoscaling_scheduled_action" "scale_out" {
   name               = "${var.name_prefix}-vote-scale-out"
   resource_id        = aws_appautoscaling_target.vote.resource_id
@@ -139,12 +132,12 @@ resource "aws_appautoscaling_scheduled_action" "scale_out" {
   schedule = "cron(58 8 * * ? *)"
 
   scalable_target_action {
-    min_capacity = 10
-    max_capacity = 20
+    min_capacity = 1
+    max_capacity = 1
   }
 }
 
-# scale-in: 투표 종료 5분 후 → min=1, max=20 으로 평시 상태 복귀
+# scale-in: 투표 종료 5분 후 → 평시 상태 복귀
 resource "aws_appautoscaling_scheduled_action" "scale_in" {
   name               = "${var.name_prefix}-vote-scale-in"
   resource_id        = aws_appautoscaling_target.vote.resource_id
@@ -157,7 +150,7 @@ resource "aws_appautoscaling_scheduled_action" "scale_in" {
 
   scalable_target_action {
     min_capacity = 1
-    max_capacity = 20
+    max_capacity = 1
   }
 }
 
