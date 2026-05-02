@@ -96,7 +96,7 @@ variable "redis_host" {
 
 # ── 스케일링 ──────────────────────────────────────────────────
 variable "desired_count" {
-  description = "초기 ECS 태스크 수 (평시 0 = 완전 중지)"
+  description = "초기 ECS 태스크 수"
   type        = number
-  default     = 0
+  default     = 1
 }

@@ -113,9 +113,9 @@ resource "aws_ecs_service" "vote" {
   }
 }
 
-# ── Auto Scaling Target (min 0 = 평시 완전 중지 허용) ─────────
+# ── Auto Scaling Target ───────────────────────────────────────
 resource "aws_appautoscaling_target" "vote" {
-  min_capacity       = 0
+  min_capacity       = 1
   max_capacity       = 20
   resource_id        = "service/${var.cluster_name}/${aws_ecs_service.vote.name}"
   scalable_dimension = "ecs:service:DesiredCount"
@@ -144,7 +144,7 @@ resource "aws_appautoscaling_scheduled_action" "scale_out" {
   }
 }
 
-# scale-in: 투표 종료 5분 후 → min=0, max=0 으로 전체 태스크 종료
+# scale-in: 투표 종료 5분 후 → min=1, max=20 으로 평시 상태 복귀
 resource "aws_appautoscaling_scheduled_action" "scale_in" {
   name               = "${var.name_prefix}-vote-scale-in"
   resource_id        = aws_appautoscaling_target.vote.resource_id
@@ -156,8 +156,8 @@ resource "aws_appautoscaling_scheduled_action" "scale_in" {
   schedule = "cron(5 10 * * ? *)"
 
   scalable_target_action {
-    min_capacity = 0
-    max_capacity = 0
+    min_capacity = 1
+    max_capacity = 20
   }
 }
 
