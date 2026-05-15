@@ -47,15 +47,6 @@ module "database" {
   backup_retention_period = var.db_backup_retention_period
 }
 
-# ── Cache ─────────────────────────────────────────────────────
-module "cache" {
-  source = "./modules/cache"
-
-  name_prefix        = local.name_prefix
-  private_subnet_ids = module.networking.private_subnet_ids
-  sg_cache_id        = module.networking.sg_cache_id
-}
-
 # ── Main Service ──────────────────────────────────────────────
 module "service_main" {
   source = "./modules/service-main"
@@ -74,7 +65,6 @@ module "service_main" {
   db_endpoint        = module.database.db_endpoint
   db_name            = module.database.db_name
   db_password        = var.db_password
-  redis_host         = module.cache.redis_endpoint
   swagger_username   = var.swagger_username
   swagger_password   = var.swagger_password
   app_base_url       = var.app_base_url
@@ -100,7 +90,6 @@ module "service_vote" {
   db_endpoint        = module.database.db_endpoint
   db_name            = module.database.db_name
   db_password        = var.db_password
-  redis_host         = module.cache.redis_endpoint
 }
 
 # ── Ticket Query Service ──────────────────────────────────────
@@ -149,5 +138,4 @@ module "monitoring" {
   alb_arn_suffix     = module.alb.alb_arn_suffix
   tg_vote_arn_suffix = module.alb.tg_vote_arn_suffix
   db_identifier      = module.database.db_instance_id
-  redis_cluster_id   = module.cache.redis_cluster_id
 }

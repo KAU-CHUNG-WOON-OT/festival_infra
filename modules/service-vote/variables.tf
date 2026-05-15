@@ -87,13 +87,6 @@ variable "db_password" {
   sensitive   = true
 }
 
-# ── Cache ─────────────────────────────────────────────────────
-variable "redis_host" {
-  description = "Redis 호스트명"
-  type        = string
-  sensitive   = true
-}
-
 # ── 스케일링 ──────────────────────────────────────────────────
 variable "desired_count" {
   description = "초기 ECS 태스크 수"

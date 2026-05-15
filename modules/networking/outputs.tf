@@ -38,11 +38,6 @@ output "sg_db_id" {
   value       = aws_security_group.db.id
 }
 
-output "sg_cache_id" {
-  description = "Cache 보안 그룹 ID"
-  value       = aws_security_group.cache.id
-}
-
 output "sg_bastion_id" {
   description = "Bastion 보안 그룹 ID"
   value       = aws_security_group.bastion.id

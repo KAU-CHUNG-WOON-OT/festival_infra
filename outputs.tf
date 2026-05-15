@@ -28,13 +28,6 @@ output "db_endpoint" {
   sensitive   = true
 }
 
-# ── Cache ─────────────────────────────────────────────────────
-output "redis_endpoint" {
-  description = "ElastiCache Redis 엔드포인트"
-  value       = module.cache.redis_endpoint
-  sensitive   = true
-}
-
 # ── Bastion ───────────────────────────────────────────────────
 output "bastion_public_ip" {
   description = "Bastion EC2 퍼블릭 IP (IntelliJ SSH 터널 주소)"

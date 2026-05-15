@@ -41,8 +41,6 @@ resource "aws_ecs_task_definition" "vote" {
         { name = "DB_HOST", value = split(":", var.db_endpoint)[0] },
         { name = "DB_PORT", value = "3306" },
         { name = "DB_NAME", value = var.db_name },
-        { name = "REDIS_HOST", value = var.redis_host },
-        { name = "REDIS_PORT", value = "6379" }
       ]
 
       secrets = [

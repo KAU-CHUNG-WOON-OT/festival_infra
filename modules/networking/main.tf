@@ -280,28 +280,3 @@ resource "aws_security_group" "db" {
 
   tags = { Name = "${var.name_prefix}-sg-db" }
 }
-
-# sg_cache: Main + Vote SG → 6379 (Redis)
-resource "aws_security_group" "cache" {
-  name        = "${var.name_prefix}-sg-cache"
-  description = "Cache: inbound 6379 from main and vote services"
-  vpc_id      = aws_vpc.this.id
-
-  ingress {
-    description     = "From Main service"
-    from_port       = 6379
-    to_port         = 6379
-    protocol        = "tcp"
-    security_groups = [aws_security_group.main.id]
-  }
-
-  ingress {
-    description     = "From Vote service"
-    from_port       = 6379
-    to_port         = 6379
-    protocol        = "tcp"
-    security_groups = [aws_security_group.vote.id]
-  }
-
-  tags = { Name = "${var.name_prefix}-sg-cache" }
-}

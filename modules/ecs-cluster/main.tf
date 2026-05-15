@@ -114,9 +114,12 @@ resource "aws_iam_role_policy" "task_dynamodb" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = ["dynamodb:GetItem"]
-      Resource = "arn:aws:dynamodb:ap-northeast-2:236451048000:table/festival-ticketing-ticket"
+      Effect = "Allow"
+      Action = ["dynamodb:GetItem", "dynamodb:UpdateItem"]
+      Resource = [
+        "arn:aws:dynamodb:ap-northeast-2:236451048000:table/festival-ticketing-ticket",
+        "arn:aws:dynamodb:ap-northeast-2:236451048000:table/festival-ticketing-counter"
+      ]
     }]
   })
 }

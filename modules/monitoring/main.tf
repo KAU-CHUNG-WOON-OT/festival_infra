@@ -155,12 +155,12 @@ resource "aws_cloudwatch_dashboard" "this" {
           ]
         }
       },
-      # Row 3: RDS 커넥션 / Redis 히트율
+      # Row 3: RDS 커넥션
       {
         type   = "metric"
         x      = 0
         y      = 12
-        width  = 12
+        width  = 24
         height = 6
         properties = {
           title  = "RDS Database Connections"
@@ -170,23 +170,6 @@ resource "aws_cloudwatch_dashboard" "this" {
           view   = "timeSeries"
           metrics = [
             ["AWS/RDS", "DatabaseConnections", "DBInstanceIdentifier", var.db_identifier]
-          ]
-        }
-      },
-      {
-        type   = "metric"
-        x      = 12
-        y      = 12
-        width  = 12
-        height = 6
-        properties = {
-          title  = "Redis Cache Hit Rate"
-          region = data.aws_region.current.name
-          period = 60
-          view   = "timeSeries"
-          metrics = [
-            ["AWS/ElastiCache", "CacheHits", "CacheClusterId", var.redis_cluster_id, { "stat" = "Sum", "label" = "Hits" }],
-            ["AWS/ElastiCache", "CacheMisses", "CacheClusterId", var.redis_cluster_id, { "stat" = "Sum", "label" = "Misses", "color" = "#ff7f0e" }]
           ]
         }
       }

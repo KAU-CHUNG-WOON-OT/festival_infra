@@ -206,6 +206,7 @@ resource "aws_lb_listener_rule" "ticket" {
         "/docs",
         "/openapi.json",
         "/redoc",
+        "/health",
       ]
     }
   }

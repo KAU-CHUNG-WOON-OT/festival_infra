@@ -77,13 +77,6 @@ variable "db_password" {
   sensitive   = true
 }
 
-# ── Cache ─────────────────────────────────────────────────────
-variable "redis_host" {
-  description = "Redis 호스트명"
-  type        = string
-  sensitive   = true
-}
-
 variable "app_base_url" {
   description = "앱 베이스 URL (OAuth2 redirect URI에 사용)"
   type        = string

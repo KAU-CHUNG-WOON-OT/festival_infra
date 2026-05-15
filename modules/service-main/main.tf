@@ -51,8 +51,6 @@ resource "aws_ecs_task_definition" "main" {
         { name = "DB_HOST", value = split(":", var.db_endpoint)[0] },
         { name = "DB_PORT", value = "3306" },
         { name = "DB_NAME", value = var.db_name },
-        { name = "REDIS_HOST", value = var.redis_host },
-        { name = "REDIS_PORT", value = "6379" },
         { name = "SWAGGER_USERNAME", value = var.swagger_username },
         { name = "APP_BASE_URL", value = var.app_base_url }
       ]

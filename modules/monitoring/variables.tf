@@ -43,8 +43,3 @@ variable "db_identifier" {
   description = "RDS 인스턴스 식별자"
   type        = string
 }
-
-variable "redis_cluster_id" {
-  description = "ElastiCache 클러스터 ID (대시보드 히트율용)"
-  type        = string
-}
